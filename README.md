@@ -10,3 +10,4 @@ If you can open a terminal and get the hadoop and java version numbers, then you
 1. Install Nodejs on your local machine
 2. In VS Code, open this project and make sure you are in the same directory as app.js and index.html
 3. Open a terminal and type 'node app.js' to start the node server.
+4. The server is configured to run on port 8080, so open a browser and go to 'localhost:8080' to get to the index page.
