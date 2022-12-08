@@ -2,9 +2,10 @@
 CS531 Final Project
 
 *** HADOOP INSTRUCTIONS ***
-Right now this is configured to run on the stand alone version of Hadoop.
+  Right now this is configured to run on the stand alone version of Hadoop.
 Make sure to have Java and Hadoop installed and set up their paths as environment variables.
 If you can open a terminal and get the hadoop and java version numbers, then you are set.
+The code for the HDFS will not work right out of the box, there are path strings in the app.js that need to be modified to fit your machine.
 
 *** NODE SERVER INSTRUCTIONS ***
 1. Install Nodejs on your local machine
