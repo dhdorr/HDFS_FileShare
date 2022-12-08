@@ -6,6 +6,7 @@ CS531 Final Project
 Make sure to have Java and Hadoop installed and set up their paths as environment variables.
 If you can open a terminal and get the hadoop and java version numbers, then you are set.
 The code for the HDFS will not work right out of the box, there are path strings in the app.js that need to be modified to fit your machine.
+To start the HDFS server, 'hdfs dfs format' and 'hdfs dfs start'
 
 *** NODE SERVER INSTRUCTIONS ***
 1. Install Nodejs on your local machine (you may need to 'npm install express' and 'formidable')
