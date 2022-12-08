@@ -15,12 +15,16 @@ const download = require('download');
 
 var hdfsFilePaths = [];
 
-app.listen(8080, function(req, res) {
-  console.log("server started at port 8080");
-});
+//Scripts.js is kept in the public dir, may be usefull for html scripts.
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', function(req, res) {
   res.sendFile(__dirname+'/index.html');
+  getStoredFiles(function(){
+    console.log("Initial File Count of HDFS: " + hdfsFilePaths.length);
+
+  });
+
 });
 
 app.post('/fileupload', function(req, res) {
@@ -93,6 +97,14 @@ app.get('/filedownload', function(req,res) {
 });
 
 app.get('/testme', function(req, res) {
+  getStoredFiles();
+
+  res.end();
+
+});
+
+//Retrieves the files stored in HDFS
+function getStoredFiles(_callback) {
   const child3 = spawn('hdfs dfs', ['-ls', '/user'], {shell: true});
   var lsString = "";
   child3.stdout.on('data', (data) => {
@@ -108,11 +120,10 @@ app.get('/testme', function(req, res) {
     displayStoredFiles(lsString);
     
     console.log(`child process exited with code ${code}`);
-    res.end();
+    //res.end();
+    _callback();
   });
-
-
-});
+}
 
 //displays all file paths and sets a global array of file paths
 function displayStoredFiles(resString) {
@@ -133,9 +144,17 @@ function displayStoredFiles(resString) {
 
   hdfsFilePaths = myCopyArr;
   console.log("HDFS files total: " + hdfsFilePaths.length);
-  
+
   //display file locations only
   for(var s = 0; s < myCopyArr.length; s++){
     console.log("STRING: " + myCopyArr[s]);
   }
+}
+
+app.listen(8080, function(req, res) {
+  console.log("server started at port 8080");
+});
+
+function testme1() {
+  console.log("made it....");
 }
