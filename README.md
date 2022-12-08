@@ -10,6 +10,6 @@ To start the HDFS server, 'hdfs dfs format' and 'hdfs dfs start'
 
 *** NODE SERVER INSTRUCTIONS ***
 1. Install Nodejs on your local machine (you may need to 'npm install express' and 'formidable')
-2. In VS Code, open this project and make sure you are in the same directory as app.js and index.html
+2. In VS Code, open this project and make sure you are in the same directory as app.js and index.html (You may have to open as an administartor for this to work)
 3. Open a terminal and type 'node app.js' to start the node server.
 4. The server is configured to run on port 8080, so open a browser and go to 'localhost:8080' to get to the index page.
