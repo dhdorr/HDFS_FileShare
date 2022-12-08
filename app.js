@@ -13,6 +13,8 @@ const { spawn } = require('child_process');
 const { dirname } = require('path');
 const download = require('download');
 
+var hdfsFilePaths = [];
+
 app.listen(8080, function(req, res) {
   console.log("server started at port 8080");
 });
@@ -26,7 +28,7 @@ app.post('/fileupload', function(req, res) {
       var form = new formidable.IncomingForm();
       form.parse(req, function (err, fields, files) {
         var oldpath = files.filetoupload.filepath;
-        var newpath = 'C:/Users/dhdor/Desktop/CS531_Final_Proj/assets/' + files.filetoupload.originalFilename;
+        var newpath = `${__dirname}/assets/` + files.filetoupload.originalFilename;
         fs.rename(oldpath, newpath, function (err) {
           if (err) throw err;
           //res.write('File uploaded and moved!');
@@ -88,77 +90,52 @@ app.get('/filedownload', function(req,res) {
     }
   });
 
+});
+
+app.get('/testme', function(req, res) {
+  const child3 = spawn('hdfs dfs', ['-ls', '/user'], {shell: true});
+  var lsString = "";
+  child3.stdout.on('data', (data) => {
+    lsString += data;
+    console.log(`stdout: ${data}`);
+  });
+
+  child3.stderr.on('data', (data) => {
+    console.error(`stderr: ${data}`);
+  });
+
+  child3.on('close', (code) => {
+    displayStoredFiles(lsString);
+    
+    console.log(`child process exited with code ${code}`);
+    res.end();
+  });
+
 
 });
 
-//http.createServer(function (req, res) {
-  // if (req.url == '/fileupload') {
-  //   var form = new formidable.IncomingForm();
-  //   form.parse(req, function (err, fields, files) {
-  //     var oldpath = files.filetoupload.filepath;
-  //     var newpath = 'C:/Users/dhdor/Desktop/CS531_Final_Proj/assets/' + files.filetoupload.originalFilename;
-  //     fs.rename(oldpath, newpath, function (err) {
-  //       if (err) throw err;
-  //       res.write('File uploaded and moved!');
-  //       //const { spawn } = require('child_process');
-  //       //const child = spawn('dir', ['\public'], {shell: true});
-  //       const child = spawn('hdfs dfs', ['-put', newpath, '/user'], {shell: true});
-  //       //const child = spawn('ping', ['google.com'], {shell: true});
-  //       //const child = spawn('hadoop fs, ' [' -put', '/local-file-path', '/hdfs-file-path'], {shell: true});
-  //       child.stdout.on('data', (data) => {
-  //       console.log(`stdout: ${data}`);
-  //       });
+//displays all file paths and sets a global array of file paths
+function displayStoredFiles(resString) {
+  var myArr = resString.replace( /\n/g, " " ).split( " " );//.split(/\r?\n/);
+  for(var i = 0; i < myArr.length - 1; i++){
+    if (myArr[i] == "" || myArr[i] == " " || myArr[i] == "  "){
+      myArr.splice(i, 1);
+    }
+  }
 
-  //       child.stderr.on('data', (data) => {
-  //       console.error(`stderr: ${data}`);
-  //       });
+  //file path for HDFS files
+  var myCopyArr = [];
+  for(var i = 0; i < myArr.length - 1; i++){
+    if (myArr[i].includes("/user/")){
+      myCopyArr.push(myArr[i]);
+    }
+  }
 
-  //       child.on('close', (code) => {
-  //       console.log(`child process exited with code ${code}`);
-  //       });
-
-  //       res.end();
-  //     });
-  //   });
-
-  //} //else if (req.url == '/filedownload') {
-      // console.log("made it to the download section");
-      //   //const { spawn } = require('child_process');
-      //   //C:/Users/dhdor/Desktop/CS531_Final_Proj/temp/
-      //   var myPath = `${__dirname}` + '\\temp';
-      //   const child2 = spawn('hdfs dfs', ['-get', '/user/Tribes12.png', myPath], {shell: true});
-
-      //   console.log("section 2");
-
-      //   child2.stdout.on('data', (data) => {
-      //     console.log("section 3");
-      //   console.log(`stdout: ${data}`);
-      //   });
-
-      //   console.log("section 4");
-
-      //   child2.stderr.on('data', (data) => {
-      //     console.log("section 5");
-      //   console.error(`stderr: ${data}`);
-      //   });
-
-      //   console.log("section 6");
-
-      //   child2.on('close', (code) => {
-      //     console.log("section 7");
-      //     console.log(`child process exited with code ${code}`);
-      //   });
-
-      //   console.log("section 8");
-
-      //   res.end();
-       
-  //}
+  hdfsFilePaths = myCopyArr;
+  console.log("HDFS files total: " + hdfsFilePaths.length);
   
-  //else {
-    // fs.readFile(fileName, 'binary', function(err, file){
-    //   res.writeHead(200);
-    //   res.write(file, 'binary');
-    // });
- // }
-//}).listen(3000);
+  //display file locations only
+  for(var s = 0; s < myCopyArr.length; s++){
+    console.log("STRING: " + myCopyArr[s]);
+  }
+}
