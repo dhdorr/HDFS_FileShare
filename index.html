@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="scripts.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <form action="fileupload" method="post" enctype="multipart/form-data">
@@ -13,15 +14,23 @@
         <input type="submit">
     </form>
 
-    <form action="filedownload" method="get">
+    <!-- <form action="filedownload" method="get">
         <input type="submit">
-    </form>
+    </form> -->
 
     <br>
-    <form action="testme" method="get">
+    
+    <!-- <form action="testme" method="get">
         <input type="submit" onclick="" value="help">
-    </form>
-    <input type="button" onclick="myFun()" value="testtest">
+    </form> -->
+
+    <!-- <input type="button" onclick="myFun()" value="Get Files!"> -->
+
+    <button class="btn" id="getFilesBtn" onclick="myFun()">Get Files!</button>
+
+    <br>
+    <br>
+    <div></div>
 </body>
 
 </html>

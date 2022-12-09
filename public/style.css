@@ -1,0 +1,8 @@
+.btn {
+    background-color: aqua;
+    outline: none;
+    border-style: dotted;
+    border-width: 2px;
+    border-radius: .5rem;
+    border-color: blue;
+}

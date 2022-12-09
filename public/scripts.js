@@ -10,7 +10,7 @@ function myFun(apiEndPoint="testme"){
     for(var i = 0; i < data.length; i++){
       //var temp = data[i].split('/user/');
       const divContent = document.createElement("form");
-      const aContent = document.createElement("button");
+      const fileBtn = document.createElement("button");
 
       var tempStr = data[i].split('/user/');
       //var pathStr = "testFun(" + tempStr + ")";
@@ -18,9 +18,10 @@ function myFun(apiEndPoint="testme"){
       divContent.setAttribute('action', `filedownload/${tempStr[1]}`);
       divContent.setAttribute('method', 'get');
       //aContent.setAttribute('onclick', pathStr);
-      aContent.setAttribute('type', "submit");
-      aContent.textContent = data[i];
-      divContent.appendChild(aContent);
+      fileBtn.setAttribute('type', "submit");
+      fileBtn.setAttribute('class', "btn");
+      fileBtn.textContent = tempStr[1];
+      divContent.appendChild(fileBtn);
 
       document.body.appendChild(divContent);
     }
@@ -29,13 +30,13 @@ function myFun(apiEndPoint="testme"){
 }
 
 
-async function testFun(myFile){
-  console.log("here to test..." + `${myFile}`);
-  //API call to app.js to download file from HDFS
-  fetch('http://localhost:8080/filedownload')
-  .then((response) => response.blob())
-  .then((data) => {
-    console.log(data);
+// async function testFun(myFile){
+//   console.log("here to test..." + `${myFile}`);
+//   //API call to app.js to download file from HDFS
+//   fetch('http://localhost:8080/filedownload')
+//   .then((response) => response.blob())
+//   .then((data) => {
+//     console.log(data);
 
-  });
-}
+//   });
+// }
