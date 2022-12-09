@@ -12,6 +12,7 @@ const subProcess = require('child_process');
 const { spawn } = require('child_process');
 const { dirname } = require('path');
 const download = require('download');
+const { exit } = require('process');
 
 var hdfsFilePaths = [];
 
@@ -33,6 +34,8 @@ app.get('/', function(req, res) {
 
 app.post('/fileupload', function(req, res) {
   console.log("uploading...");
+  if (req.body != null){
+  
       var form = new formidable.IncomingForm();
       form.parse(req, function (err, fields, files) {
         var oldpath = files.filetoupload.filepath;
@@ -58,6 +61,8 @@ app.post('/fileupload', function(req, res) {
   
         });
     });
+  }
+  res.end();
 });
 
 app.get('/filedownload/:id', function(req,res) {
