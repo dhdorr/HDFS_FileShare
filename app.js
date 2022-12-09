@@ -20,10 +20,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', function(req, res) {
   res.sendFile(__dirname+'/index.html');
-  getStoredFiles(function(){
-    console.log("Initial File Count of HDFS: " + hdfsFilePaths.length);
-
-  });
+  //getStoredFiles(function(){
+    //console.log("Initial File Count of HDFS: " + hdfsFilePaths.length);
+    //create cards for each file here?
+    // module.exports.hdfsFilePaths = hdfsFilePaths;
+    // res.sendFile(__dirname+'/index.html');
+    //res.write(hdfsFilePaths[1]);
+    //res.end();
+  //});
 
 });
 
@@ -97,9 +101,11 @@ app.get('/filedownload', function(req,res) {
 });
 
 app.get('/testme', function(req, res) {
-  getStoredFiles();
-
-  res.end();
+  getStoredFiles(function(){
+    res.send(JSON.stringify(hdfsFilePaths));
+    res.end();
+  });
+  
 
 });
 
@@ -127,6 +133,7 @@ function getStoredFiles(_callback) {
 
 //displays all file paths and sets a global array of file paths
 function displayStoredFiles(resString) {
+  //parser
   var myArr = resString.replace( /\n/g, " " ).split( " " );//.split(/\r?\n/);
   for(var i = 0; i < myArr.length - 1; i++){
     if (myArr[i] == "" || myArr[i] == " " || myArr[i] == "  "){
