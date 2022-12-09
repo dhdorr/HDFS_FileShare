@@ -60,12 +60,12 @@ app.post('/fileupload', function(req, res) {
     });
 });
 
-app.get('/filedownload', function(req,res) {
-  console.log("retrieving file...");
+app.get('/filedownload/:id', function(req,res) {
+  console.log("retrieving file..." + `${req.params.id}`);
   //Retrieving the file from the HDFS and storing them in a temp folder for downloading to a browser.
   //I am not sure if the hdfs get function is able to download directly to the remote browser.
   var myPath = `${__dirname}` + '\\temp';
-  const child2 = spawn('hdfs dfs', ['-get', '/user/Tribes12.png', myPath], {shell: true});
+  const child2 = spawn('hdfs dfs', ['-get', `/user/${req.params.id}`, myPath], {shell: true});
 
   console.log("section 2");
 
@@ -86,17 +86,22 @@ app.get('/filedownload', function(req,res) {
   child2.on('close', (code) => {
     console.log("section 7");
     console.log(`child process exited with code ${code}`);
-    res.end();
+    
+    res.download(`${__dirname}/temp/${req.params.id}`, function(err) {
+      if(err){
+        console.log(err);
+      }
+    });
+    //res.end();
   });
-
-  console.log("section 8");
+  // console.log("section 8");
 
   //Download to remote user's browser
-  res.download(`${__dirname}/temp/Tribes12.png`, function(err) {
-    if(err){
-      console.log(err);
-    }
-  });
+  // res.download(`${__dirname}/temp/${req.params.id}`, function(err) {
+  //   if(err){
+  //     console.log(err);
+  //   }
+  // });
 
 });
 
@@ -134,7 +139,7 @@ function getStoredFiles(_callback) {
 //displays all file paths and sets a global array of file paths
 function displayStoredFiles(resString) {
   //parser
-  var myArr = resString.replace( /\n/g, " " ).split( " " );//.split(/\r?\n/);
+  var myArr = resString.replace( /\r?\n/g, " " ).split( " " );//.split(/\r?\n/); /\n/g
   for(var i = 0; i < myArr.length - 1; i++){
     if (myArr[i] == "" || myArr[i] == " " || myArr[i] == "  "){
       myArr.splice(i, 1);
