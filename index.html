@@ -9,10 +9,13 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <form action="fileupload" method="post" enctype="multipart/form-data">
+
+    <iframe style="display: none;" name="myFrame" id="myFrame"></iframe>
+    <form action="fileupload" method="post" enctype="multipart/form-data" target="myFrame">
         <input type="file" name="filetoupload"><br>
         <input type="submit">
     </form>
+    
 
     <!-- <form action="filedownload" method="get">
         <input type="submit">
