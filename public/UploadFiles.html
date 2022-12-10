@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+    <head>
+        <html lang="en">
+        <meta charset="UTF-8">
+        <title>Tuffy's FileShare</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <link rel="stylesheet" href="">
+        <script src="scripts.js"></script>
+    </head>
+    <body>
+
+
+        <div class="upload">
+            <ul>
+                <li><a href="BrowseFiles.html">Browse Files</a></li>
+                <li><a>Upload Files</a></li>
+                <li><a href="YourProfile.html">Your Profile</a></li>
+            </ul>
+            <h1>Upload File</h1>
+        </div>
+    
+        <p>Upload your files to Share</p>
+        <iframe style="display: none;" name="myFrame" id="myFrame"></iframe>
+        <form action="fileupload" method="post" enctype="multipart/form-data" target="myFrame" name="form1" onsubmit="checkForImg()">
+            <input type="file" name="filetoupload" id="fileInput"><br>
+            <input type="submit" id="subBtn">
+            
+        </form>
+
+    </body>
+</html>

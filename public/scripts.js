@@ -1,5 +1,6 @@
 
 function myFun(apiEndPoint="testme"){
+
   console.log("DID I MAKE IT?: ");
   //API call to app.js to retrieve info from HDFS as JSON string
   fetch(`http://localhost:8080/${apiEndPoint}`)
@@ -29,6 +30,17 @@ function myFun(apiEndPoint="testme"){
   });
 }
 
+function checkForImg() {
+  var empty = document.forms["form1"]["filetoupload"].value;
+
+  if (empty == '') {
+    console.log("no file")
+    return false;
+  } else {
+    console.log("good, file")
+    return true;
+  }
+}
 
 // async function testFun(myFile){
 //   console.log("here to test..." + `${myFile}`);
