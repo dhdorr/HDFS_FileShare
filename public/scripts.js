@@ -12,7 +12,7 @@ function getFiles(apiEndPoint="retrieveFiles"){
       const fileBtn = document.createElement("button");
 
       //Trim file path to just the file name.
-      var tempStr = data[i].split('/user/');
+      var tempStr = data[i].split('user/');
 
       //Set attributes so each button can download its respective file
       divContent.setAttribute('action', `filedownload/${tempStr[1]}`);
