@@ -2,7 +2,7 @@
 function getFiles(apiEndPoint="retrieveFiles"){
 
   //API call to app.js to retrieve info from HDFS as JSON array
-  fetch(`https://localhost:8080/${apiEndPoint}`)
+  fetch(`http://34.212.69.186:8080//${apiEndPoint}`)//localhost
   .then((response) => response.json())
   .then((data) => {
     console.log(data);
