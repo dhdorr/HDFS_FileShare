@@ -97,7 +97,7 @@ app.get('/retrieveFiles', function(req, res) {
   //Wait for HDFS to return an array of file data, then send back that array as JSON
   getStoredFiles(function(){
     res.send(JSON.stringify(hdfsFilePaths));
-    res.end();
+    //res.end();
   });
   
 });
@@ -105,7 +105,7 @@ app.get('/retrieveFiles', function(req, res) {
 //Retrieves the files stored in HDFS
 function getStoredFiles(_callback) {
   //Make a shell command to the HDFS to list the files in /user
-  const child3 = spawn('/usr/local/hadoop/hadoop-3.3.4/bin/./hdfs dfs', ['-ls', 'user'], {shell: true});
+  const child3 = spawn('/usr/local/hadoop/hadoop-3.3.4/bin/./hdfs dfs', ['-ls', 'user'], {shell: false});
 
   var lsString = "";
 
