@@ -39,7 +39,8 @@ app.post('/fileupload', function(req, res) {
   //Parse file and give it a temp file path on the web server
   form.parse(req, function (err, fields, files) {
     var oldpath = files.filetoupload.filepath;
-    var newpath = `${__dirname}\\assets\\` + files.filetoupload.originalFilename;
+    console.log("dirname: " + __dirname);
+    var newpath = `${__dirname}`+ '\\assets\\' + files.filetoupload.originalFilename;
     fs.rename(oldpath, newpath, function (err) {
       if (err) throw err;
       //Make a shell command to the HDFS to store the file
