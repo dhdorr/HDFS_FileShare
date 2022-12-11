@@ -1,7 +1,0 @@
-HDFS COMMANDS:
-
-LIST: hdfs dfs -ls /user
-
-PUT: hdfs dfs -put /Users/dhdor/Desktop/CS531_Final_Proj/assets/Tribes12.png /user
-
-GET: hdfs dfs -get /user/Tribes12.png /Users/dhdor/Desktop/CS531_Final_Proj/
