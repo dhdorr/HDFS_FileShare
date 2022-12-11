@@ -26,7 +26,7 @@ app.get('/', function(req, res) {
 
   makeDirectory.on('close', (code) => {
     console.log(`child process exited with code ${code}`);
-    
+
     //Display Index
     res.sendFile(__dirname+'/index.html');
   });
@@ -160,6 +160,3 @@ app.listen(8080, function(req, res) {
   console.log("server started at port 8080");
 });
 
-function testme1() {
-  console.log("made it....");
-}
