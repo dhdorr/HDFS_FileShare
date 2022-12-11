@@ -1,35 +1,35 @@
 
-function myFun(apiEndPoint="testme"){
+function getFiles(apiEndPoint="retrieveFiles"){
 
-  console.log("DID I MAKE IT?: ");
-  //API call to app.js to retrieve info from HDFS as JSON string
+  //API call to app.js to retrieve info from HDFS as JSON array
   fetch(`http://localhost:8080/${apiEndPoint}`)
   .then((response) => response.json())
   .then((data) => {
     console.log(data);
-
+    //When data comes back from the API, create a new form and button for every item in the JSON array
     for(var i = 0; i < data.length; i++){
-      //var temp = data[i].split('/user/');
       const divContent = document.createElement("form");
       const fileBtn = document.createElement("button");
 
+      //Trim file path to just the file name.
       var tempStr = data[i].split('/user/');
-      //var pathStr = "testFun(" + tempStr + ")";
-      //console.log("testing:: " + `${tempStr[1]}`);
+
+      //Set attributes so each button can download its respective file
       divContent.setAttribute('action', `filedownload/${tempStr[1]}`);
       divContent.setAttribute('method', 'get');
-      //aContent.setAttribute('onclick', pathStr);
       fileBtn.setAttribute('type', "submit");
       fileBtn.setAttribute('class', "btn");
       fileBtn.textContent = tempStr[1];
-      divContent.appendChild(fileBtn);
 
+      //Append content to the DOM
+      divContent.appendChild(fileBtn);
       document.body.appendChild(divContent);
     }
 
   });
 }
 
+//Only enable submit button when a file is chosen
 function checkForImg() {
   var empty = document.forms["form1"]["filetoupload"].value;
 
@@ -42,13 +42,3 @@ function checkForImg() {
   }
 }
 
-// async function testFun(myFile){
-//   console.log("here to test..." + `${myFile}`);
-//   //API call to app.js to download file from HDFS
-//   fetch('http://localhost:8080/filedownload')
-//   .then((response) => response.blob())
-//   .then((data) => {
-//     console.log(data);
-
-//   });
-// }
