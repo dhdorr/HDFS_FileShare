@@ -1,5 +1,6 @@
 # HDFS_FileShare
 CS531 Final Project
+http://34.212.69.186:8080/
 
 *** HADOOP INSTRUCTIONS ***
   Right now this is configured to run on the stand alone version of Hadoop.
