@@ -21,7 +21,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //LOAD INDEX PAGE
 app.get('/', function(req, res) {
-  res.sendFile(__dirname+'/index.html');
+  //Makes the user directory for HDFS in case if it doesn't exist
+  const makeDirectory = spawn('hdfs dfs', ['-mkdir', 'user'], {shell: true});
+
+  makeDirectory.on('close', (code) => {
+    console.log(`child process exited with code ${code}`);
+    
+    //Display Index
+    res.sendFile(__dirname+'/index.html');
+  });
 });
 
 // UPLOAD FILES TO HDFS
