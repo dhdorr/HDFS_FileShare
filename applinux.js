@@ -40,7 +40,7 @@ app.post('/fileupload', function(req, res) {
   form.parse(req, function (err, fields, files) {
     var oldpath = files.filetoupload.filepath;
     console.log("dirname: " + __dirname);
-  var newpath = __dirname + "/assets/" + `'${files.filetoupload.originalFilename}'`;
+  var newpath = __dirname + "/assets/" + files.filetoupload.originalFilename;
     console.log("newpath: " + newpath);
     fs.rename(oldpath, newpath, function (err) {
       if (err) throw err;
