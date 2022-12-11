@@ -133,17 +133,18 @@ function updateStoredFilesArray(resString) {
   //parse the string and remove new lines, etc.
   //split string into array by white space
   var myArr = resString.replace( /\r?\n/g, " " ).split( " " );
-
+    console.log("resstring: " + resString);
   for(var i = 0; i < myArr.length - 1; i++){
     if (myArr[i] == "" || myArr[i] == " " || myArr[i] == "  "){
       myArr.splice(i, 1);
     }
   }
+  console.log("myarr: " + myArr.length);
 
   //Copy only the strings that are file names to a new array
   var myCopyArr = [];
   for(var i = 0; i < myArr.length - 1; i++){
-    if (myArr[i].includes("/user/")){
+    if (myArr[i].includes("user/")){
       myCopyArr.push(myArr[i]);
     }
   }
