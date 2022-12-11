@@ -68,7 +68,7 @@ app.post('/fileupload', function(req, res) {
 app.get('/filedownload/:id', function(req,res) {
   console.log("retrieving file..." + `${req.params.id}`);
   //Retrieving the file from the HDFS and storing them in a temp folder for downloading to a browser.
-  var myPath = `${__dirname}` + '\\temp';
+  var myPath = __dirname + '/temp';
   //Make a shell command to the HDFS to download the file onto the web server
   const child2 = spawn('/usr/local/hadoop/hadoop-3.3.4/bin/./hdfs dfs', ['-get', `user/${req.params.id}`, myPath], {shell: true});
 
