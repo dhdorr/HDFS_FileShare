@@ -2,6 +2,7 @@ body{
     overflow-y: hidden;
     overflow-x: hidden;
 }
+
 .btn {
     background-color: rgba(0, 255, 238, 0.666);
     outline: none;
