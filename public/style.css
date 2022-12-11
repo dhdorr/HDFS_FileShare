@@ -1,8 +1,24 @@
 .btn {
-    background-color: aqua;
+    background-color: rgba(0, 255, 238, 0.666);
     outline: none;
     border-style: dotted;
     border-width: 2px;
     border-radius: .5rem;
     border-color: blue;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 30px;
+    height: 30px;
+}
+
+.get_files_btn{
+    background-color: rgb(0, 119, 255);
+    color: white;
+    outline: none;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: .5rem;
+    border-color: blue;
+    margin-left: 50px;
+    height: 40px;
 }
