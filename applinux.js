@@ -105,7 +105,7 @@ app.get('/retrieveFiles', function(req, res) {
 //Retrieves the files stored in HDFS
 function getStoredFiles(_callback) {
   //Make a shell command to the HDFS to list the files in /user
-  const child3 = spawn('/usr/local/hadoop/hadoop-3.3.4/bin/./hdfs dfs', ['-ls', 'user'], {shell: false});
+  const child3 = spawn('/usr/local/hadoop/hadoop-3.3.4/bin/./hdfs dfs', ['-ls', 'user'], {shell: true});
 
   var lsString = "";
 
