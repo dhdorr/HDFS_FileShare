@@ -34,12 +34,12 @@ app.get('/', function(req, res) {
 
 app.post('/fileupload', function(req, res) {
   console.log("uploading...");
-  if (req.body != null){
+  //if (req.body != null){
   
       var form = new formidable.IncomingForm();
       form.parse(req, function (err, fields, files) {
         var oldpath = files.filetoupload.filepath;
-        var newpath = `${__dirname}/assets/` + files.filetoupload.originalFilename;
+        var newpath = `${__dirname}\\assets\\` + files.filetoupload.originalFilename;
         fs.rename(oldpath, newpath, function (err) {
           if (err) throw err;
           //res.write('File uploaded and moved!');
@@ -61,8 +61,8 @@ app.post('/fileupload', function(req, res) {
   
         });
     });
-  }
-  res.end();
+  //}
+  //res.end();
 });
 
 app.get('/filedownload/:id', function(req,res) {
