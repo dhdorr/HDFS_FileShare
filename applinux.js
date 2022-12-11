@@ -43,7 +43,7 @@ app.post('/fileupload', function(req, res) {
     fs.rename(oldpath, newpath, function (err) {
       if (err) throw err;
       //Make a shell command to the HDFS to store the file
-      const child = spawn('/usr/local/hadoop/hadoop-3.3.4/bin/./hdfs dfs', ['-put', newpath, '/user'], {shell: true});
+      const child = spawn('/usr/local/hadoop/hadoop-3.3.4/bin/./hdfs dfs', ['-put', newpath, 'user'], {shell: true});
 
       child.stdout.on('data', (data) => {
         console.log(`stdout: ${data}`);
@@ -68,7 +68,7 @@ app.get('/filedownload/:id', function(req,res) {
   //Retrieving the file from the HDFS and storing them in a temp folder for downloading to a browser.
   var myPath = `${__dirname}` + '\\temp';
   //Make a shell command to the HDFS to download the file onto the web server
-  const child2 = spawn('/usr/local/hadoop/hadoop-3.3.4/bin/./hdfs dfs', ['-get', `/user/${req.params.id}`, myPath], {shell: true});
+  const child2 = spawn('/usr/local/hadoop/hadoop-3.3.4/bin/./hdfs dfs', ['-get', `user/${req.params.id}`, myPath], {shell: true});
 
   child2.stdout.on('data', (data) => {
   console.log(`stdout: ${data}`);
@@ -103,7 +103,7 @@ app.get('/retrieveFiles', function(req, res) {
 //Retrieves the files stored in HDFS
 function getStoredFiles(_callback) {
   //Make a shell command to the HDFS to list the files in /user
-  const child3 = spawn('/usr/local/hadoop/hadoop-3.3.4/bin/./hdfs dfs', ['-ls', '/user'], {shell: true});
+  const child3 = spawn('/usr/local/hadoop/hadoop-3.3.4/bin/./hdfs dfs', ['-ls', 'user'], {shell: true});
 
   var lsString = "";
 
