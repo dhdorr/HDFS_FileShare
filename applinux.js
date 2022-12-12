@@ -19,17 +19,9 @@ var hdfsFilePaths = [];
 //Scripts.js is kept in the public dir, it is used for the web interface.
 app.use(express.static(path.join(__dirname, 'public')));
 
-//LOAD INDEX PAGE
+//SEND HOME PAGE
 app.get('/', function(req, res) {
-  //Makes the user directory for HDFS in case if it doesn't exist
-  const makeDirectory = spawn('/usr/local/hadoop/hadoop-3.3.4/bin/./hdfs dfs', ['-mkdir', 'user'], {shell: true});
-
-  makeDirectory.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
-
-    //Display Index
-    res.sendFile(__dirname+'/index.html');
-  });
+  res.sendFile(__dirname + '/public/BrowseFiles.html');
 });
 
 // UPLOAD FILES TO HDFS
@@ -68,15 +60,6 @@ app.post('/fileupload', function(req, res) {
     });
   });
 });
-
-//Clears temp folders after file is uploaded or downloaded
-function clearCache(clearPath, _clearCallback){
-    console.log("path to be cleared: " + clearPath);
-    fs.unlink(clearPath, (err => {
-      if (err) console.log(err);
-    }));
-    _clearCallback();
-  }
 
 //DOWNLOAD FILES FROM HDFS
 app.get('/filedownload/:id', function(req,res) {
@@ -179,6 +162,15 @@ function updateStoredFilesArray(resString) {
     console.log("STRING: " + myCopyArr[s]);
   }
 }
+
+//Clears temp folders after file is uploaded or downloaded
+function clearCache(clearPath, _clearCallback){
+    console.log("path to be cleared: " + clearPath);
+    fs.unlink(clearPath, (err => {
+      if (err) console.log(err);
+    }));
+    _clearCallback();
+  }
 
 app.listen(8080, function(req, res) {
   console.log("server started at port 8080");

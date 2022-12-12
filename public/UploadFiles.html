@@ -19,11 +19,11 @@
             <h1>Upload File</h1>
         </div>
     
-        <p>Upload your files to Share</p>
+        <p class="uploadHint">Upload your files to Share</p>
         <iframe style="display: none;" name="myFrame" id="myFrame"></iframe>
-        <form action="fileupload" method="post" enctype="multipart/form-data" target="myFrame" name="form1" onsubmit="checkForImg()">
-            <input type="file" name="filetoupload" id="fileInput"><br>
-            <input type="submit" id="subBtn">
+        <form action="fileupload" method="post" enctype="multipart/form-data" target="myFrame" name="form1" onsubmit="checkForImg()" class="uploadForm">
+            <input type="file" name="filetoupload" id="fileInput" class="file-input"><br>
+            <input type="submit" id="subBtn" class="file-input" value="Upload File">
             
         </form>
 

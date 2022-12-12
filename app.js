@@ -19,17 +19,9 @@ var hdfsFilePaths = [];
 //Scripts.js is kept in the public dir, it is used for the web interface.
 app.use(express.static(path.join(__dirname, 'public')));
 
-//LOAD INDEX PAGE
+//SEND HOME PAGE
 app.get('/', function(req, res) {
-  //Makes the user directory for HDFS in case if it doesn't exist
-  const makeDirectory = spawn('hdfs dfs', ['-mkdir', 'user'], {shell: true});
-
-  makeDirectory.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
-
-    //Display Index
-    res.sendFile(__dirname+'/index.html');
-  });
+  res.sendFile(__dirname + '/public/BrowseFiles.html');
 });
 
 // UPLOAD FILES TO HDFS
@@ -56,6 +48,10 @@ app.post('/fileupload', function(req, res) {
       child.on('close', (code) => {
         console.log(`child process exited with code ${code}`);
         res.end();
+        //Delete file from local temp folder
+        clearCache(newpath, function(){
+          console.log("cleared assets folder...");
+        });
       });
 
     });
@@ -70,6 +66,8 @@ app.get('/filedownload/:id', function(req,res) {
   //Make a shell command to the HDFS to download the file onto the web server
   const child2 = spawn('hdfs dfs', ['-get', `/user/${req.params.id}`, myPath], {shell: true});
 
+  myPath += `/${req.params.id}`;
+
   child2.stdout.on('data', (data) => {
   console.log(`stdout: ${data}`);
   });
@@ -81,9 +79,15 @@ app.get('/filedownload/:id', function(req,res) {
   child2.on('close', (code) => {
     console.log(`child process exited with code ${code}`);
     
-    res.download(`${__dirname}/temp/${req.params.id}`, function(err) {
+    res.download(myPath, function(err) {
       if(err){
         console.log(err);
+      }
+      else{
+        //Delete file from local temp folder
+        clearCache(myPath, function(){
+          console.log("cleared temp folder...");
+        });
       }
     });
   });
@@ -105,11 +109,11 @@ function getStoredFiles(_callback) {
   //Make a shell command to the HDFS to list the files in /user
   const child3 = spawn('hdfs dfs', ['-ls', '/user'], {shell: true});
 
-  var lsString = "";
+  var hdfsResponse = "";
 
-  //Build lsString as HDFS sends its data
+  //Build hdfsResponse as HDFS sends its data
   child3.stdout.on('data', (data) => {
-    lsString += data;
+    hdfsResponse += data;
     console.log(`stdout: ${data}`);
   });
 
@@ -119,7 +123,7 @@ function getStoredFiles(_callback) {
 
   child3.on('close', (code) => {
 
-    updateStoredFilesArray(lsString);
+    updateStoredFilesArray(hdfsResponse);
     
     console.log(`child process exited with code ${code}`);
     _callback();
@@ -154,6 +158,15 @@ function updateStoredFilesArray(resString) {
   for(var s = 0; s < myCopyArr.length; s++){
     console.log("STRING: " + myCopyArr[s]);
   }
+}
+
+//Clears temp folders after file is uploaded or downloaded
+function clearCache(clearPath, _clearCallback){
+  console.log("path to be cleared: " + clearPath);
+  fs.unlink(clearPath, (err => {
+    if (err) console.log(err);
+  }));
+  _clearCallback();
 }
 
 app.listen(8080, function(req, res) {

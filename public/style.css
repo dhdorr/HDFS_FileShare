@@ -1,19 +1,24 @@
 body{
-    overflow-y: hidden;
     overflow-x: hidden;
 }
-
+/* rgba(0, 255, 238, 0.666) */
 .btn {
-    background-color: rgba(0, 255, 238, 0.666);
+    background-color: white;
     outline: none;
     border-style: dotted;
     border-width: 2px;
     border-radius: .5rem;
     border-color: blue;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    margin-left: 30px;
-    height: 30px;
+    /* margin-top: 5px; */
+    /* margin-bottom: 5px; */
+    /* margin-left: 30px; */
+    height: 60px;
+    width: 180px;
+    text-align: center;
+}
+
+.btn:hover{
+    background-color: lightgray;
 }
 
 .get_files_btn{
@@ -26,6 +31,12 @@ body{
     border-color: blue;
     margin-left: 50px;
     height: 40px;
+    width: 160px;
+    text-align: center;
+}
+
+.get_files_btn:hover{
+    background-color: cornflowerblue;
 }
 
 ul{
@@ -54,6 +65,35 @@ li a:hover{
 
 .active {
     background-color: blue;
+}
+
+.file-cards{
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    /* align-items: center; */
+    /* justify-content: center; */
+    align-content: flex-start;
+    height: 50vh;
+    width: 50vw;
+    background-color: rgb(51, 51, 51);
+    left: 25vw;
+    padding: 15px;
+    overflow-y: scroll;
+}
+
+.uploadForm {
+    margin: 30px;
+}
+
+.uploadHint {
+    margin-left: 30px;
+    margin-top: 30px;
+}
+
+.file-input{
+    margin-bottom: 15px;
 }
 
 footer{

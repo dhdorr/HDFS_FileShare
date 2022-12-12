@@ -8,22 +8,23 @@ function getFiles(apiEndPoint="retrieveFiles"){
     console.log(data);
     //When data comes back from the API, create a new form and button for every item in the JSON array
     for(var i = 0; i < data.length; i++){
-      const divContent = document.createElement("form");
+      const formContent = document.createElement("form");
       const fileBtn = document.createElement("button");
 
       //Trim file path to just the file name.
       var tempStr = data[i].split('user/');
 
       //Set attributes so each button can download its respective file
-      divContent.setAttribute('action', `filedownload/${tempStr[1]}`);
-      divContent.setAttribute('method', 'get');
+      formContent.setAttribute('action', `filedownload/${tempStr[1]}`);
+      formContent.setAttribute('method', 'get');
       fileBtn.setAttribute('type', "submit");
       fileBtn.setAttribute('class', "btn");
       fileBtn.textContent = tempStr[1];
 
       //Append content to the DOM
-      divContent.appendChild(fileBtn);
-      document.body.appendChild(divContent);
+      formContent.appendChild(fileBtn);
+      //document.body.appendChild(formContent);
+      document.getElementById("fileCards").append(formContent)
     }
 
   });
