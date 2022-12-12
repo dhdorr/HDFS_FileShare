@@ -40,7 +40,7 @@ app.post('/fileupload', function(req, res) {
   form.parse(req, function (err, fields, files) {
     var oldpath = files.filetoupload.filepath;
     console.log("dirname: " + __dirname);
-  var newpath = __dirname + "/assets/" + files.filetoupload.originalFilename;
+    var newpath = __dirname + "/assets/" + files.filetoupload.originalFilename;
     console.log("newpath: " + newpath);
     fs.rename(oldpath, newpath, function (err) {
       if (err) throw err;
@@ -58,11 +58,25 @@ app.post('/fileupload', function(req, res) {
       child.on('close', (code) => {
         console.log(`child process exited with code ${code}`);
         res.end();
+
+        //Delete file from local temp folder
+        clearCache(newpath, function(){
+            console.log("cleared assets folder...");
+          });
       });
 
     });
   });
 });
+
+//Clears temp folders after file is uploaded or downloaded
+function clearCache(clearPath, _clearCallback){
+    console.log("path to be cleared: " + clearPath);
+    fs.unlink(clearPath, (err => {
+      if (err) console.log(err);
+    }));
+    _clearCallback();
+  }
 
 //DOWNLOAD FILES FROM HDFS
 app.get('/filedownload/:id', function(req,res) {
@@ -71,6 +85,8 @@ app.get('/filedownload/:id', function(req,res) {
   var myPath = __dirname + '/temp';
   //Make a shell command to the HDFS to download the file onto the web server
   const child2 = spawn('/usr/local/hadoop/hadoop-3.3.4/bin/./hdfs dfs', ['-get', `user/${req.params.id}`, myPath], {shell: true});
+
+  myPath += `/${req.params.id}`;
 
   child2.stdout.on('data', (data) => {
   console.log(`stdout: ${data}`);
@@ -83,9 +99,14 @@ app.get('/filedownload/:id', function(req,res) {
   child2.on('close', (code) => {
     console.log(`child process exited with code ${code}`);
     
-    res.download(`${__dirname}/temp/${req.params.id}`, function(err) {
+    res.download(myPath, function(err) {//`${__dirname}/temp/${req.params.id}`
       if(err){
         console.log(err);
+      } else{
+        //Delete file from local temp folder
+        clearCache(myPath, function(){
+          console.log("cleared temp folder...");
+        });
       }
     });
   });
@@ -97,7 +118,7 @@ app.get('/retrieveFiles', function(req, res) {
   //Wait for HDFS to return an array of file data, then send back that array as JSON
   getStoredFiles(function(){
     res.send(JSON.stringify(hdfsFilePaths));
-    //res.end();
+    res.end();
   });
   
 });
